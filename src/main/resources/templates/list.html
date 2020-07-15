@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>秒杀列表页</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!-- 页面显示部分 -->
+    <!-- bootstrap特有：所有内容放到class="container"的div标签下 -->
+    <div class="container">
+        <!-- bootstrap中现成的面板(panel)组件，该组件到bootstrap4则改为了card -->
+        <div class="panel panel-default">
+            <!--面板头：panel-heading-->
+            <div class="panel-heading text-center">
+                <h2>秒杀列表</h2>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <!--thread->表头-->
+                    <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>库存</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>创建时间</th>
+                            <th>详情页</th>
+                        </tr>
+                    </thead>
+                    <!--tbody->表体-->
+                    <tbody>
+                        <tr th:each="sk : ${list}">
+                            <td th:text="${sk.name}">name?</td>
+                            <td th:text="${sk.number}">number?</td>
+                            <td th:text="${sk.startTime}">00:00</td>
+                            <td th:text="${sk.endTime}">00:00</td>
+                            <td th:text="${sk.createTime}">00:00</td>
+                            <td>
+                                <a class="btn btn-info" th:href="@{/seckill/${sk.seckillId}/detail}" target="_blank">link</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
