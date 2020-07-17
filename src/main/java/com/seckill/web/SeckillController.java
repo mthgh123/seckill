@@ -58,7 +58,7 @@ public class SeckillController {
             method = RequestMethod.POST,
             produces = {"application/json;charset=UTF-8"})
     @ResponseBody  //看到此注解会将返回类型封装成json
-    public SeckillResult<Exposer> exposer(Long seckillId){
+    public SeckillResult<Exposer> exposer(@PathVariable Long seckillId){
         SeckillResult<Exposer> result;
         try{
             Exposer exposer=seckillService.exportSeckillUrl(seckillId);
@@ -87,20 +87,21 @@ public class SeckillController {
             return new SeckillResult<>(true,execution);
         } catch (RepeatKillException e){
             SeckillExecution execution=new SeckillExecution(seckillId, -1,"重复秒杀");
-            return new SeckillResult<>(false,execution);
+            return new SeckillResult<>(true,execution);
         } catch (SeckillCloseException e){
             SeckillExecution execution=new SeckillExecution(seckillId, -2,"秒杀结束");
-            return new SeckillResult<>(false,execution);
+            return new SeckillResult<>(true,execution);
         } catch (Exception e){
             logger.error(e.getMessage(),e);
             //除了上述的两种异常之外的所有其他异常
             SeckillExecution execution=new SeckillExecution(seckillId, 0,"内部错误");
-            return new SeckillResult<>(false,execution);
+            return new SeckillResult<>(true,execution);
         }
     }
 
     //获取系统时间
     @RequestMapping(value = "/time/now", method=RequestMethod.GET)
+    @ResponseBody
     public SeckillResult<Long> time(){
         //new Date() 初始化为系统的当前时间
         Date now = new Date();
